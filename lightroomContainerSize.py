@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[57]:
+# In[1]:
 
 
 # First, lets test the ability of Python to handle very large numbers.
@@ -20,7 +20,7 @@ print "The factorial of %r is: %r" % (n, fact)
 print "Adding 1 to this number, the result is: %r" % (fact+1)
 
 
-# In[58]:
+# In[2]:
 
 
 # The solution based on the common combinatorics problem as follows.
@@ -52,7 +52,7 @@ unittest.TextTestRunner(verbosity=2).run(suite)
                          
 
 
-# In[116]:
+# In[3]:
 
 
 def myBinomial(x, m):
@@ -78,7 +78,7 @@ suite = unittest.TestLoader().loadTestsFromTestCase(testMyBinomial)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[117]:
+# In[4]:
 
 
 def myNb(s, r, m):
