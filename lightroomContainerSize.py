@@ -24,7 +24,7 @@ print "Adding 1 to this number, the result is: %r" % (fact+1)
 
 
 # The solution based on the common combinatorics problem as follows.
-# How many ways that sum of x(i), where i range from 1 to m, total to s>
+# How many ways that sum of x(i), where i range from 1 to m, total to s?
 # Here, x(i) may not exceed r. That is, it is bounded by the range 0 to r.
 # The first order of business is computing the binomial.
 
@@ -73,18 +73,21 @@ class testMyBinomial(unittest.TestCase):
         self.assertEqual(myBinomial(3, 3), 1)
         self.assertEqual(myBinomial(5, 2), 10)
         self.assertEqual(myBinomial(5, -2), 0)
+        
+    def testMe_big(self):
+        self.assertEqual(myBinomial(70, 10), 396704524216L)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(testMyBinomial)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[4]:
+# In[13]:
 
 
 def myNb(s, r, m):
     result = 0
-    if (s > 0 and r > 0 and m > 0):
-        for k in range(0, int(s/r)+1):
+    if (s >= 0 and r >= 0 and m >= 0):
+        for k in range(0, m):
             term = ((-1)**k) * myBinomial(m, k) * myBinomial(s+m-1-k*(r + 1), s-k*(r + 1))
             result = result + term
     
@@ -92,18 +95,71 @@ def myNb(s, r, m):
 
 class testMyNb(unittest.TestCase):
     
-    def testMe(self):
+    def testMe_logical(self):
         self.assertEqual(myNb(24, 5, 5), 5)
         self.assertEqual(myNb(15, 4, 4), 4)
         self.assertEqual(myNb(14, 4, 4), 10)
+    
+    def testMe_preWork(self):
         self.assertEqual(myNb(64, 22, 10), 72238591590L)
-        
+        self.assertEqual(myNb(36, 4, 12), 975338L)
+    
+    def testMe_sanity(self):
+        self.assertEqual(myNb(48, 1, 48), 1)
+        self.assertEqual(myNb(48, 2, 24), 1)
+        self.assertEqual(myNb(48, 4, 12), 1)
+                         
 suite = unittest.TestLoader().loadTestsFromTestCase(testMyNb)
 unittest.TextTestRunner(verbosity=2).run(suite)
         
 
 
-# In[111]:
+# In[19]:
+
+
+# The problem of having q empty bins out of m 
+# is based on a tweak of the combinatorics above.
+# How many ways that the sum of x(i) totol to s - m + q,
+# where:
+# i range from 1 to m - q, with q empties
+# x are bounded between 1 and r-1, 
+#   since remaining (m-q) bins must each have at least 1 ball
+# s is replaced by s - m + q 
+#   to account for 1 ball in each (m-q) bins already
+# Further, there are 'm choose q' ways that empty bins may occur.
+
+def myNbe(s, r, m, q):
+    result = 0
+    if (s >= 0 and r >= 0 and m >= 0 and q >= 0):
+        result = myBinomial(m, q) * myNb(s-m+q, r-1, m-q)
+    return result
+    
+class testMyNbe(unittest.TestCase):
+    
+    def testMe_stackex(self):
+        s = 3
+        q = 2
+        m = 5
+        self.assertEqual(myNbe(s, 0, m, q), 0)
+        self.assertEqual(myNbe(s, 1, m, q), 10)
+        self.assertEqual(myNbe(s, 2, m, q), 10)
+        self.assertEqual(myNbe(s, 3, m, q), 10)
+        s = 3
+        q = 2
+        m = 4
+        self.assertEqual(myNbe(s, 2, m, q), 12)
+        self.assertEqual(myNbe(s, 3, m, q), 12)
+        
+    def testMe_preWork(self):
+        self.assertEqual(myNbe(34, 4, 12, 3), 9900)
+        self.assertEqual(myNbe(34, 4, 12, 0), 1024464)
+        self.assertEqual(myNbe(26, 4, 12, 3), 4037220)
+        
+suite = unittest.TestLoader().loadTestsFromTestCase(testMyNbe)
+unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+# In[25]:
 
 
 
