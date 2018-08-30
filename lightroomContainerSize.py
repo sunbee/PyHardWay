@@ -1,7 +1,14 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[80]:
+
+
+import pandas as pd
+import numpy as np
+
+
+# In[81]:
 
 
 # First, lets test the ability of Python to handle very large numbers.
@@ -20,7 +27,7 @@ print "The factorial of %r is: %r" % (n, fact)
 print "Adding 1 to this number, the result is: %r" % (fact+1)
 
 
-# In[2]:
+# In[82]:
 
 
 # The solution based on the common combinatorics problem as follows.
@@ -52,7 +59,7 @@ unittest.TextTestRunner(verbosity=2).run(suite)
                          
 
 
-# In[3]:
+# In[83]:
 
 
 def myBinomial(x, m):
@@ -81,13 +88,13 @@ suite = unittest.TestLoader().loadTestsFromTestCase(testMyBinomial)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[13]:
+# In[84]:
 
 
 def myNb(s, r, m):
     result = 0
     if (s >= 0 and r >= 0 and m >= 0):
-        for k in range(0, m):
+        for k in range(0, m+1):
             term = ((-1)**k) * myBinomial(m, k) * myBinomial(s+m-1-k*(r + 1), s-k*(r + 1))
             result = result + term
     
@@ -114,7 +121,7 @@ unittest.TextTestRunner(verbosity=2).run(suite)
         
 
 
-# In[19]:
+# In[85]:
 
 
 # The problem of having q empty bins out of m 
@@ -159,8 +166,49 @@ suite = unittest.TestLoader().loadTestsFromTestCase(testMyNbe)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[25]:
+# In[107]:
 
 
+# Loop without loop
+s = 3
+r = [0, 1, 2, 3]
+q = 0
 
+df = [list(map(lambda x: myNbe(s, x, m, q), r)) for m in range(0, 6)]
+df = pd.DataFrame(df)
+df = df.transpose()
+display(df)
+
+s = 3
+r = [0, 1, 2, 3]
+q = 1
+
+df = [list(map(lambda x: myNbe(s, x, m, q), r)) for m in range(0, 6)]
+df = pd.DataFrame(df)
+df = df.transpose()
+display(df)
+
+s = 3
+r = [0, 1, 2, 3]
+q = 2
+
+df = [list(map(lambda x: myNbe(s, x, m, q), r)) for m in range(0, 6)]
+df = pd.DataFrame(df)
+df = df.transpose()
+df.columns = range(0, 6)
+display(df)
+
+
+# In[110]:
+
+
+def myEmptyBins(s, r, m, q):
+    return sum(map(lambda x: myNbe(s,r, m, x), range(q, m+1)))
+
+s = 3
+r = 2
+m = 4
+q = 0
+
+print "Got %r" % myEmptyBins(s, r, m, q)
 
