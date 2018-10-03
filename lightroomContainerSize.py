@@ -1,14 +1,14 @@
 
 # coding: utf-8
 
-# In[80]:
+# In[1]:
 
 
 import pandas as pd
 import numpy as np
 
 
-# In[81]:
+# In[2]:
 
 
 # First, lets test the ability of Python to handle very large numbers.
@@ -17,7 +17,7 @@ import numpy as np
 # Why are there zeros at the trailing end of the number?
 # Hint! How many pairs in 1..n, when multiplied, yield 10?
 # Ref: https://stackoverflow.com/questions/538551/handling-very-large-numbers-in-python
-n=100
+n=99
 
 fact=1
 for i in range(1, n-1):
@@ -27,7 +27,7 @@ print "The factorial of %r is: %r" % (n, fact)
 print "Adding 1 to this number, the result is: %r" % (fact+1)
 
 
-# In[82]:
+# In[3]:
 
 
 # The solution based on the common combinatorics problem as follows.
@@ -59,7 +59,7 @@ unittest.TextTestRunner(verbosity=2).run(suite)
                          
 
 
-# In[83]:
+# In[4]:
 
 
 def myBinomial(x, m):
@@ -88,7 +88,7 @@ suite = unittest.TestLoader().loadTestsFromTestCase(testMyBinomial)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[84]:
+# In[5]:
 
 
 def myNb(s, r, m):
@@ -121,7 +121,7 @@ unittest.TextTestRunner(verbosity=2).run(suite)
         
 
 
-# In[85]:
+# In[6]:
 
 
 # The problem of having q empty bins out of m 
@@ -166,7 +166,7 @@ suite = unittest.TestLoader().loadTestsFromTestCase(testMyNbe)
 unittest.TextTestRunner(verbosity=2).run(suite)
 
 
-# In[107]:
+# In[7]:
 
 
 # Loop without loop
@@ -199,7 +199,7 @@ df.columns = range(0, 6)
 display(df)
 
 
-# In[110]:
+# In[8]:
 
 
 def myEmptyBins(s, r, m, q):
@@ -211,4 +211,17 @@ m = 4
 q = 0
 
 print "Got %r" % myEmptyBins(s, r, m, q)
+
+
+# In[23]:
+
+
+# Set it up
+m=12
+r=4
+e=np.linspace(100, 5, 20).tolist()
+s = int(e[12]*m*r/100)
+s
+myNb(s, r, m)
+myEmptyBins(s, r, m, 5)
 
